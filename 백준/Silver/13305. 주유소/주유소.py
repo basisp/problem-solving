@@ -7,19 +7,15 @@ Price.pop()
 
 total=0
 
+for i in range(1,N-1):
+    if Price[i]>Price[i-1]:
+        Price[i]=Price[i-1]
 
-needed_fuel=sum(Distance)
+for i in range(N-1):
+    total+=Price[i]*Distance[i]
 
-cnt=0
-while True:
-    if Price[cnt]==min(Price):
-        total+=Price[cnt]*sum(Distance[cnt:])
-        break
-    else:
-        total+=Price[cnt]*Distance[cnt]
-        cnt+=1
-        if cnt>N-1:
-            break
+print(total) 
 
-print(total)
+
+
 
