@@ -7,9 +7,13 @@ L=list(map(int,sys.stdin.readline().split()))
 
 dp[0]=L[0]
 
-for i in range(1,n):
-    dp[i]=max(L[i],dp[i-1]+L[i])
+if max(L)<0:
+    ans=max(L)
 
+else:
+    for i in range(1,n):
+        dp[i]=max(0, dp[i-1]+L[i])
+    ans=max(dp)
 
+print(ans)
 
-print(max(dp))
