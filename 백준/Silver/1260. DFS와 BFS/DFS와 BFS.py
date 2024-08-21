@@ -1,46 +1,48 @@
-import sys 
+import sys
 input=sys.stdin.readline
-n,m,v=map(int,input().split())
 
-E=[[] for _ in range(n+1)]
+n,m,V=map(int,input().split())
+
+
+graph=[[] for _ in range(n+1)]
 for _ in range(m):
     a,b=map(int,input().split())
-    E[a].append(b)
-    E[b].append(a)
-    
-for k in range(n+1):
-    E[k].sort()
+    graph[a].append(b)
+    graph[b].append(a)
 
-visited=[0]*(n+1)
-res=[]
+for ele in graph:
+    ele.sort(reverse=True)
 
-def dfs(v): # -> 재귀 o
-    if visited[v]==0:
-        visited[v]=1
-        res.append(v)
-        for ele in E[v]:
-            dfs(ele)
+def dfs(V):
+    visited=[0]*(n+1)
+    res=[]
+    stack=[V]
+    while stack:
+        num=stack.pop()
+        if visited[num]==0:
+            visited[num]=1
+            res.append(num)
+            for i in range(len(graph[num])):
+                if visited[graph[num][i]]==0:
+                    stack.append(graph[num][i])
+    print(' '.join(map(str,res)))
 
-dfs(v)
-print(' '.join(map(str,res)))
+dfs(V)
 
-
-
-visited=[0]*(n+1)
-res.clear()
 from collections import deque
-Q=deque()
 
-def bfs(v): #-> 재귀 x , 큐, while
-    visited[v]=1
-    Q.append(v)
+def bfs(V):
+    visited=[0]*(n+1)
+    res=[]
+    Q=deque([V])
     while Q:
-        t= Q.popleft()
-        res.append(t)
-        for ele in E[t]:
-            if not visited[ele]:
-                visited[ele]=1
-                Q.append(ele)
+        num=Q.popleft()
+        if visited[num]==0:
+            visited[num]=1
+            res.append(num)
+            for i in range(len(graph[num])-1,-1,-1):
+                if visited[graph[num][i]]==0:
+                    Q.append(graph[num][i])
+    print(' '.join(map(str,res)))
 
-bfs(v)
-print(' '.join(map(str,res)))
+bfs(V)
