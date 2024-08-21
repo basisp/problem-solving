@@ -15,20 +15,16 @@ cnt=1
 visited=[0]*(n+1)
 from collections import deque
 Q=deque([1])
+parent=[0]*(n+1)
 
 while Q:
     num=Q.popleft()
     if visited[num]==0:
-        visited[num]=cnt
-        cnt+=1
+        visited[num]=1
         for ele in graph[num]:
             if visited[ele]==0:
                 Q.append(ele)
+                parent[ele]=num
 
-for i in range(2,n+1):
-    ans=1e7
-    for ele in graph[i]:
-        ans=min(ans,visited[ele])
-    for ele in graph[i]:
-        if visited[ele]==ans:
-            print(ele)
+for i in range(2,len(parent)):
+    print(parent[i])
