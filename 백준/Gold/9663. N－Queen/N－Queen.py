@@ -1,32 +1,31 @@
 import sys
+from collections import deque
 
-N=int(input())
+n=int(input())
 
-#한 열 
-column=[0]*100
-#대각선
-cross1=[0]*100
-cross2=[0]*100
+graph=[[0]*n for _ in range(n)]
 
-res=0
+ans=0
 
-def back(cnt:int):
-    global res
-    if cnt==N:
-        res+=1
+v1=[0]*n #행
+v2=[0]*(2*n-1)# 증가하는 위 대각
+v3=[0]*(2*n-1)# 감소하는 아래 대각
+
+def dfs(num): #cnt는 행번호
+    global ans
+    if num==n:
+        ans+=1
         return
     
-    for i in range(N):
-        if column[i] or cross1[i+cnt] or cross2[cnt-i+N-1]:
-            continue
-        column[i]=1
-        cross1[i+cnt]=1
-        cross2[cnt-i+N-1]=1
-        back(cnt+1)
-        column[i]=0
-        cross1[i+cnt]=0
-        cross2[cnt-i+N-1]=0
+    for i in range(n):
+        if v1[i]!=1 and v2[num+i]!=1 and v3[num-i]!=1:
+            v1[i]=1
+            v2[num+i]=1
+            v3[num-i]=1
+            dfs(num+1)
+            v1[i]=0
+            v2[num+i]=0
+            v3[num-i]=0
 
-
-back(0)
-print(res)
+dfs(0)
+print(ans)
