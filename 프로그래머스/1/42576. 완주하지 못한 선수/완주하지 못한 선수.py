@@ -1,9 +1,12 @@
 def solution(participant, completion):
-    participant.sort()
-    completion.sort()
+    dict = {}
+    temp=0
     
-    for i in range(len(completion)):
-        if participant[i]!=completion[i]:
-            return participant[i]
+    for ele in participant:
+        dict[hash(ele)] = ele
+        temp+=hash(ele)    
         
-    return participant[-1]
+    for ele in completion:
+        temp-=hash(ele)
+        
+    return dict[temp]
